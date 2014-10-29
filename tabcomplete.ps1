@@ -10,8 +10,9 @@ function TabExpansion($line, $lastWord) {
     $lastBlock = [regex]::Split($line, '[|;]')[-1].TrimStart()
 
     switch -regex ($lastBlock) {
+	# Execute ant tab completion for non standard ant files  
+	"ant -f (.*\.xml) (.*)" {AntTabExpansion $matches[1] $lastWord; break}
         # Execute ant tab completion for all ant targets
-	    "ant -f (.*\.xml) (.*)" {AntTabExpansion $matches[1] $lastWord; break}
         "ant (.*)" { AntTabExpansion "build.xml" $lastWord; break }
 
         # Fall back on existing tab expansion
